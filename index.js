@@ -8,7 +8,6 @@ const cors = require('cors');
 const RouteUser = require('./routes/User');
 const AUTH = require('./routes/Auth');
 const profileUpload = require('./routes/image_upload');
-const RouteItem = require('./routes/Item');
 
 //Using
 const app = express();
@@ -31,7 +30,6 @@ mongoose
 
 app.use('/users', RouteUser);
 app.use('/upload', profileUpload);
-app.use('/item', RouteItem);
 
 app.listen(process.env.PORT, () => {
 	console.log(`Application is running in localhost:${process.env.PORT}`);

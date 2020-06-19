@@ -49,7 +49,7 @@ router.post('/login', (req, res, next) => {
 					err.status = 401;
 					return next(err);
 				}
-				console.log('Login post');
+				console.log('Login Successful');
 				let token = jwt.sign({ userID: usersA._id }, process.env.SECRET);
 				res.json({ status: 'Successfully logged in', token: token });
 			});
@@ -57,32 +57,4 @@ router.post('/login', (req, res, next) => {
 		.catch(next);
 });
 
-router.post('/userforgotpassword', (req, res, next) => {
-	USER.findOne({ email: req.body.email })
-		.then((usersA) => {
-			res.json(usersA);
-		})
-		.catch(next);
-	console.log('I was here');
-});
-
-router.put('/userforgotpassword', (req, res, next) => {
-	bcrypt.hash(req.body.password, 10, function (err, hash) {
-		if (err) {
-			throw new Error('Could not encrypt Password!');
-		}
-		USER.findOneAndUpdate(
-			{ email: req.body.email },
-			{ $set: { password: hash } },
-			{ new: true }
-		)
-			.then((UserB) => {
-				res.json({
-					UserB,
-				});
-			})
-			.catch(next);
-		console.log('Profile Put');
-	});
-});
 module.exports = router;
