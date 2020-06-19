@@ -9,6 +9,13 @@ const RouteUser = require('./routes/User');
 const AUTH = require('./routes/Auth');
 const profileUpload = require('./routes/image_upload');
 const RouteItem = require('./routes/Item');
+const RouteFastFood = require('./routes/fastfood');
+const Routepopularfood = require('./routes/popularfood');
+const Routenewdishes = require('./routes/newdishes');
+const RoutesUpcomingfood = require('./routes/upcomingfood');
+const RouteRegularfood = require('./routes/regularfood');
+
+
 
 //Using
 const app = express();
@@ -32,6 +39,11 @@ mongoose
 app.use('/users', RouteUser);
 app.use('/upload', profileUpload);
 app.use('/item', RouteItem);
+app.use('/fastfood', RouteFastFood);
+app.use('/popularfood', Routepopularfood);
+app.use('/newdishesfood', Routenewdishes);
+app.use('/upcomingfood', RoutesUpcomingfood);
+app.use('/regularfood', RouteRegularfood);
 
 app.listen(process.env.PORT, () => {
 	console.log(`Application is running in localhost:${process.env.PORT}`);

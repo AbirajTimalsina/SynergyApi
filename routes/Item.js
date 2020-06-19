@@ -21,7 +21,6 @@ router.get('/all', (req, res, next) => {
 			res.json(itemA);
 		})
 		.catch(next);
-	console.log('I was here');
 });
 
 module.exports = router;
