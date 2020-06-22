@@ -1,4 +1,4 @@
-const fastfood = require('../../models/fastfood');
+const regular = require('../../models/regular');
  
  
  
@@ -46,29 +46,29 @@ await mongoose.connection.close();
  
  
  
-describe('test of fastfood Schema', ()=>{
+describe('test of regular Schema', ()=>{
  
  
  
  
  
-test('should fastfood',()=>{
+test('should regular',()=>{
  
  
-return fastfood.create({
-    fastfoodpicture:'',
-    fastfoodname:'noodles',
-    fastfoodprice:'200',
+return regular.create({
+    regularfoodpicture:'',
+    regularfoodname:'momo',
+    regularfoodprice:'150',
  
 
  
  
 }).then((response)=>{
  
-    expect(response.fastfoodpicture).toBe('');
-expect(response.fastfoodname).toBe('noodles');
+    expect(response.regularfoodpicture).toBe('');
+expect(response.regularfoodname).toBe('momo');
  
-expect(response.fastfoodprice).toBe('200');
+expect(response.regularfoodprice).toBe('150');
  
 })
  
