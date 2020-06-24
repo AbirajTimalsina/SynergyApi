@@ -6,7 +6,7 @@ const itemSchema = new mongoose.Schema(
 			type: String,
 		},
 		itemprice: {
-			tpye: String,
+			type: String,
 		},
 		itemingredient: {
 			type: String,

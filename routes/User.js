@@ -85,4 +85,10 @@ router.put('/userforgotpassword', (req, res, next) => {
 		console.log('Profile Put');
 	});
 });
+
+
+router.get('/me', AUTH.verifyUser, (req, res, next)=>{
+	res.json({ fullname: req.user.fullname, phonenumber: req.user.phonenumber,email: req.user.email, qa: req.user.qa })
+	});
+
 module.exports = router;

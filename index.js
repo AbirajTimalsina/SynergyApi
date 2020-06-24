@@ -14,7 +14,7 @@ const Routepopularfood = require('./routes/popularfood');
 const Routenewdishes = require('./routes/newdishes');
 const RoutesUpcomingfood = require('./routes/upcomingfood');
 const RouteRegularfood = require('./routes/regularfood');
-
+const imageslider = require('./routes/imageslider')
 
 
 //Using
@@ -44,6 +44,8 @@ app.use('/popularfood', Routepopularfood);
 app.use('/newdishesfood', Routenewdishes);
 app.use('/upcomingfood', RoutesUpcomingfood);
 app.use('/regularfood', RouteRegularfood);
+
+app.use('/imageslider', imageslider);
 
 app.listen(process.env.PORT, () => {
 	console.log(`Application is running in localhost:${process.env.PORT}`);
