@@ -57,6 +57,10 @@ router.post('/login', (req, res, next) => {
 		.catch(next);
 });
 
+router.get('/me', AUTH.verifyUser, (req, res, next)=>{
+    res.json(req.user)
+    });
+
 router.post('/userforgotpassword', (req, res, next) => {
 	USER.findOne({ email: req.body.email })
 		.then((usersA) => {
