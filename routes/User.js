@@ -86,9 +86,14 @@ router.put('/userforgotpassword', (req, res, next) => {
 	});
 });
 
+router.get('/me', AUTH.verifyUser, (req, res, next) => {
+	// res.json({ username: req.user.username, firstName: req.user.firstName, lastName: req.user.lastName });
+	res.json(req.user);
+});
 
-router.get('/me', AUTH.verifyUser, (req, res, next)=>{
-	res.json({ fullname: req.user.fullname, phonenumber: req.user.phonenumber,email: req.user.email, qa: req.user.qa })
+router.get('/profile/:phonenumber', (req, res, next) => {
+	USER.findOne({ phonenumber: req.params.phonenumber }).then((userA) => {
+		res.json(userA);
 	});
-
+});
 module.exports = router;

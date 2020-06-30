@@ -23,4 +23,22 @@ router.get('/all', (req, res, next) => {
 		.catch(next);
 });
 
+router.put('/update', (req, res, next) => {
+	ITEM.findByIdAndUpdate(req.body._id, { $set: req.body }, { new: true })
+		.then((itemA) => {
+			res.json(itemA);
+		})
+		.catch(next);
+	console.log('Item Updated');
+});
+
+router.delete('/itemdelete/:itemid', (req, res, next) => {
+	ITEM.findByIdAndDelete(req.params.itemid)
+		.then((ItemA) => {
+			res.json('Successfully Deleted!');
+			console.log('Successfully Deleted!');
+		})
+		.catch(next);
+});
+
 module.exports = router;
