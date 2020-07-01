@@ -1,4 +1,4 @@
-const popularfood = require('../../models/popularfood');
+const Item = require('../../models/Item');
  
  
  
@@ -46,30 +46,26 @@ await mongoose.connection.close();
  
  
  
-describe('test of popularfood Schema', ()=>{
+describe('test of item Schema', ()=>{
  
  
  
  
  
-test('should popularfood',()=>{
+test('should item',()=>{
  
  
-return popularfood.create({
-    popularfoodpicture:'',
-    popularfoodname:'pizza',
-    popularfoodprice:'250',
- 
-
- 
- 
+return Item.create({
+itemname:'puri',
+itemprice:'rs:900',
+itemingredient:'alutarkari',
+itempicture:''
+    
 }).then((response)=>{
- 
-    expect(response.popularfoodpicture).toBe('');
-expect(response.popularfoodname).toBe('pizza');
- 
-expect(response.popularfoodprice).toBe('250');
- 
+    expect(response.itemname).toBe('puri');
+expect(response.itemprice).toBe('rs:900');
+expect(response.itemingredient).toBe('alutarkari');
+expect(response.itempicture).toBe(''); 
 })
  
  
