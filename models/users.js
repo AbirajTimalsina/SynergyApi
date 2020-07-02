@@ -1,4 +1,10 @@
 const mongoose = require('mongoose');
+const purchaseSchema = new mongoose.Schema(
+	{
+		itemname: { type: String },
+	},
+	{ timestamps: true }
+);
 
 const userSchema = new mongoose.Schema({
 	fullname: {
@@ -36,6 +42,7 @@ const userSchema = new mongoose.Schema({
 			minlength: 2,
 		},
 	},
+	purchase: [purchaseSchema],
 });
 
 module.exports = mongoose.model('User', userSchema);

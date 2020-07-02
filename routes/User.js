@@ -86,14 +86,33 @@ router.put('/userforgotpassword', (req, res, next) => {
 	});
 });
 
+router.put('/purchaseupdate', AUTH.verifyUser, (req, res, next) => {
+	USER.findById(req.user._id)
+		.then((userA) => {
+			req.body.map((element) => {
+				const itemObject = element.nameValuePairs.itemname;
+				userA.purchase.push({
+					itemname: itemObject,
+				});
+			});
+
+			userA.save().then((userB) => {
+				res.json(userB);
+			});
+		})
+		.catch(next);
+	console.log('Purchase Recorded');
+});
+
 router.get('/me', AUTH.verifyUser, (req, res, next) => {
-	// res.json({ username: req.user.username, firstName: req.user.firstName, lastName: req.user.lastName });
-	res.json(req.user);
+	res.json(req.user).catch(next);
 });
 
 router.get('/profile/:phonenumber', (req, res, next) => {
-	USER.findOne({ phonenumber: req.params.phonenumber }).then((userA) => {
-		res.json(userA);
-	});
+	USER.findOne({ phonenumber: req.params.phonenumber })
+		.then((userA) => {
+			res.json(userA);
+		})
+		.catch(next);
 });
 module.exports = router;
