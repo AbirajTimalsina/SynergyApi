@@ -86,33 +86,33 @@ router.put('/userforgotpassword', (req, res, next) => {
 	});
 });
 
-router.put('/purchaseupdate', AUTH.verifyUser, (req, res, next) => {
-	USER.findById(req.user._id)
-		.then((userA) => {
-			req.body.map((element) => {
-				const itemObject = element.nameValuePairs.itemname;
-				userA.purchase.push({
-					itemname: itemObject,
-				});
-			});
 
-			userA.save().then((userB) => {
-				res.json(userB);
-			});
-		})
-		.catch(next);
-	console.log('Purchase Recorded');
-});
+router.get('/me', AUTH.verifyUser, (req, res, next)=>{
+	res.json({ fullname: req.user.fullname, phonenumber: req.user.phonenumber,email: req.user.email, qa: req.user.qa })
+	});
 
-router.get('/me', AUTH.verifyUser, (req, res, next) => {
-	res.json(req.user).catch(next);
-});
-
-router.get('/profile/:phonenumber', (req, res, next) => {
-	USER.findOne({ phonenumber: req.params.phonenumber })
-		.then((userA) => {
+	router.get('/profile/:phonenumber', (req, res, next) => {
+		USER.findOne({ phonenumber: req.params.phonenumber }).then((userA) => {
 			res.json(userA);
-		})
-		.catch(next);
-});
+		});
+	});
+
+	router.put('/purchaseupdate', AUTH.verifyUser, (req, res, next) => {
+		USER.findById(req.user._id)
+			.then((userA) => {
+				req.body.map((element) => {
+					const itemObject = element.nameValuePairs.itemname;
+					userA.purchase.push({
+						itemname: itemObject,
+						itemprice:element.nameValuePairs.itemprice
+					});
+				});
+				userA.save().then((userB) => {
+					res.json(userB);
+				});
+			})
+			.catch(next);
+		console.log('Purchase Recorded');
+	});
+	
 module.exports = router;
