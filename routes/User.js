@@ -88,5 +88,24 @@ router.put('/userforgotpassword', (req, res, next) => {
 			.catch(next);
 		console.log('Profile Put');
 	});
+
+	router.put('/purchaseupdate', AUTH.verifyUser, (req, res, next) => {
+		USER.findById(req.user._id)
+			.then((userA) => {
+				req.body.map((element) => {
+					const itemObject = element.nameValuePairs.itemname;
+					userA.purchase.push({
+						itemname: itemObject,
+						
+					});
+				});
+				userA.save().then((userB) => {
+					res.json(userB);
+				});
+			})
+			.catch(next);
+		console.log('Purchase Recorded');
+	});
 });
+
 module.exports = router;
