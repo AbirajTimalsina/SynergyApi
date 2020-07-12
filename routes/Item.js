@@ -29,7 +29,7 @@ router.put('/update', (req, res, next) => {
 			res.json(itemA);
 		})
 		.catch(next);
-	console.log('Item Updated');
+	console.log({ status: 'Purchase Successful', Date: Date.now() });
 });
 
 router.delete('/itemdelete/:itemid', (req, res, next) => {

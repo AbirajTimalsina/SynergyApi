@@ -4,6 +4,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const USER = require('../models/users');
 const AUTH = require('./Auth');
+const { Timestamp } = require('mongodb');
+const { update } = require('../models/users');
 
 router.post('/signup', (req, res, next) => {
 	USER.findOne({ email: req.body.email })
@@ -38,6 +40,7 @@ router.post('/login', (req, res, next) => {
 			if (usersA === null) {
 				let err = new Error('Phone Number not found!');
 				err.status = 401;
+				res.json({ status: 'Phone Number not found!', Date: Date.now() });
 				return next(err);
 			}
 			bcrypt.compare(req.body.password, usersA.password, function (
@@ -47,6 +50,7 @@ router.post('/login', (req, res, next) => {
 				if (!status) {
 					let err = new Error('Password does not match!');
 					err.status = 401;
+					res.json({ status: 'Password does not match!', Date: Date.now() });
 					return next(err);
 				}
 				console.log('Login post');
@@ -86,33 +90,85 @@ router.put('/userforgotpassword', (req, res, next) => {
 	});
 });
 
+router.put('/purchaseupdate', AUTH.verifyUser, (req, res, next) => {
+	USER.findById(req.user._id)
+		.then((userA) => {
+			req.body.map((element) => {
+				userA.purchase.push({
+					itemname: element.nameValuePairs.itemname,
+					itemprice: element.nameValuePairs.itemprice,
+				});
+			});
+			userA.save().then((userB) => {
+				res.json(userB);
+				console.log({ status: 'Purchase Successful', Date: Date.now() });
+			});
+		})
+		.catch(next);
+});
 
-router.get('/me', AUTH.verifyUser, (req, res, next)=>{
-	res.json({ fullname: req.user.fullname, phonenumber: req.user.phonenumber,email: req.user.email, qa: req.user.qa })
+updatefeedback = (req, element, res) => {
+	let userChange = { $set: { favorite: 'yeaa', rating: 'ratingyeaa' } };
+	USER.findOneAndUpdate(
+		{
+			_id: req.user._id,
+			feedback: {
+				$elemMatch: { itemname: element.itemname },
+			},
+		},
+		{
+			$set: {
+				'feedback.$.favorite': element.favorite,
+				'feedback.$.rating': element.rating,
+			},
+		}
+	).then((data) => {
+		// let userfeedback = data.feedback.id(data.feedback[0]._id);
+		console.log('Updated for ' + req.user._id + ' on ' + element.itemname);
 	});
+};
 
-	router.get('/profile/:phonenumber', (req, res, next) => {
-		USER.findOne({ phonenumber: req.params.phonenumber }).then((userA) => {
-			res.json(userA);
+createfeedback = (req, element, res) => {
+	USER.findById(req.user._id).then((data) => {
+		data.feedback.push(element);
+		data.save().then((created) => {
+			console.log('Created for ' + req.user._id + ' on ' + element.itemname);
 		});
 	});
+};
 
-	router.put('/purchaseupdate', AUTH.verifyUser, (req, res, next) => {
-		USER.findById(req.user._id)
-			.then((userA) => {
-				req.body.map((element) => {
-					const itemObject = element.nameValuePairs.itemname;
-					userA.purchase.push({
-						itemname: itemObject,
-						itemprice:element.nameValuePairs.itemprice
-					});
-				});
-				userA.save().then((userB) => {
-					res.json(userB);
-				});
-			})
-			.catch(next);
-		console.log('Purchase Recorded');
-	});
-	
+router.post('/feedback', AUTH.verifyUser, (req, res, next) => {
+	try {
+		req.body.map((element) => {
+			USER.findOne({
+				_id: req.user._id,
+				feedback: {
+					$elemMatch: { itemname: element.itemname },
+				},
+			}).then((data) => {
+				if (!data) {
+					createfeedback(req, element, res);
+				} else {
+					updatefeedback(req, element, res);
+				}
+			});
+		});
+		res.json({ status: 'feedback noted successfully', Array: req.body });
+	} catch (e) {
+		console.log(e);
+		res.json(e);
+	}
+});
+
+router.get('/me', AUTH.verifyUser, (req, res, next) => {
+	res.json(req.user).catch(next);
+});
+
+router.get('/profile/:phonenumber', (req, res, next) => {
+	USER.findOne({ phonenumber: req.params.phonenumber })
+		.then((userA) => {
+			res.json(userA);
+		})
+		.catch(next);
+});
 module.exports = router;
