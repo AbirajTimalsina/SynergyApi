@@ -108,24 +108,45 @@ router.put('/purchaseupdate', AUTH.verifyUser, (req, res, next) => {
 });
 
 updatefeedback = (req, element, res) => {
-	let userChange = { $set: { favorite: 'yeaa', rating: 'ratingyeaa' } };
-	USER.findOneAndUpdate(
-		{
-			_id: req.user._id,
-			feedback: {
-				$elemMatch: { itemname: element.itemname },
+	if (!element.rating) {
+		USER.findOneAndUpdate(
+			{
+				_id: req.user._id,
+				feedback: {
+					$elemMatch: { itemname: element.itemname },
+				},
 			},
-		},
-		{
-			$set: {
-				'feedback.$.favorite': element.favorite,
-				'feedback.$.rating': element.rating,
+			{
+				$set: {
+					'feedback.$.favorite': element.favorite,
+				},
+			}
+		).then((data) => {
+			// let userfeedback = data.feedback.id(data.feedback[0]._id);
+			console.log(
+				'Updated favorite for ' + req.user._id + ' on ' + element.itemname
+			);
+		});
+	} else if (!element.favorite) {
+		USER.findOneAndUpdate(
+			{
+				_id: req.user._id,
+				feedback: {
+					$elemMatch: { itemname: element.itemname },
+				},
 			},
-		}
-	).then((data) => {
-		// let userfeedback = data.feedback.id(data.feedback[0]._id);
-		console.log('Updated for ' + req.user._id + ' on ' + element.itemname);
-	});
+			{
+				$set: {
+					'feedback.$.rating': element.rating,
+				},
+			}
+		).then((data) => {
+			// let userfeedback = data.feedback.id(data.feedback[0]._id);
+			console.log(
+				'Updated rating for ' + req.user._id + ' on ' + element.itemname
+			);
+		});
+	}
 };
 
 createfeedback = (req, element, res) => {
