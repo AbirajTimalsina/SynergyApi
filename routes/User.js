@@ -107,73 +107,72 @@ router.put('/purchaseupdate', AUTH.verifyUser, (req, res, next) => {
 		.catch(next);
 });
 
-updatefeedback = (req, element, res) => {
-	if (!element.rating) {
+updatefeedback = (req, res) => {
+	if (!req.body.rating) {
 		USER.findOneAndUpdate(
 			{
 				_id: req.user._id,
 				feedback: {
-					$elemMatch: { itemname: element.itemname },
+					$elemMatch: { itemname: req.body.itemname },
 				},
 			},
 			{
 				$set: {
-					'feedback.$.favorite': element.favorite,
+					'feedback.$.favorite': req.body.favorite,
 				},
 			}
 		).then((data) => {
 			// let userfeedback = data.feedback.id(data.feedback[0]._id);
 			console.log(
-				'Updated favorite for ' + req.user._id + ' on ' + element.itemname
+				'Updated favorite for ' + req.user._id + ' on ' + req.body.itemname
 			);
 		});
-	} else if (!element.favorite) {
+	} else if (!req.body.favorite) {
 		USER.findOneAndUpdate(
 			{
 				_id: req.user._id,
 				feedback: {
-					$elemMatch: { itemname: element.itemname },
+					$elemMatch: { itemname: req.body.itemname },
 				},
 			},
 			{
 				$set: {
-					'feedback.$.rating': element.rating,
+					'feedback.$.rating': req.body.rating,
 				},
 			}
 		).then((data) => {
 			// let userfeedback = data.feedback.id(data.feedback[0]._id);
 			console.log(
-				'Updated rating for ' + req.user._id + ' on ' + element.itemname
+				'Updated rating for ' + req.user._id + ' on ' + req.body.itemname
 			);
 		});
 	}
 };
 
-createfeedback = (req, element, res) => {
+createfeedback = (req, res) => {
 	USER.findById(req.user._id).then((data) => {
-		data.feedback.push(element);
+		data.feedback.push(req.body);
 		data.save().then((created) => {
-			console.log('Created for ' + req.user._id + ' on ' + element.itemname);
+			console.log('Created for ' + req.user._id + ' on ' + req.body.itemname);
 		});
 	});
 };
 
 router.post('/feedback', AUTH.verifyUser, (req, res, next) => {
 	try {
-		req.body.map((element) => {
-			USER.findOne({
-				_id: req.user._id,
-				feedback: {
-					$elemMatch: { itemname: element.itemname },
-				},
-			}).then((data) => {
-				if (!data) {
-					createfeedback(req, element, res);
-				} else {
-					updatefeedback(req, element, res);
-				}
-			});
+		USER.findOne({
+			_id: req.user._id,
+			feedback: {
+				$elemMatch: { itemname: req.body.itemname },
+			},
+		}).then((data) => {
+			if (!data) {
+				createfeedback(req, res);
+			} else {
+				updatefeedback(req, res);
+			}
 		});
+
 		res.json({ status: 'feedback noted successfully', Array: req.body });
 	} catch (e) {
 		console.log(e);
