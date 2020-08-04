@@ -6,6 +6,7 @@ const USER = require('../models/users');
 const AUTH = require('./Auth');
 const { Timestamp } = require('mongodb');
 const { update } = require('../models/users');
+const { route } = require('./image_upload');
 
 router.post('/signup', (req, res, next) => {
 	USER.findOne({ email: req.body.email })
@@ -60,6 +61,7 @@ router.post('/login', (req, res, next) => {
 		})
 		.catch(next);
 });
+
 
 router.post('/userforgotpassword', (req, res, next) => {
 	USER.findOne({ email: req.body.email })
@@ -181,9 +183,16 @@ router.post('/feedback', AUTH.verifyUser, (req, res, next) => {
 });
 
 router.get('/me', AUTH.verifyUser, (req, res, next) => {
-	res.json(req.user).catch(next);
+	res.json(req.user);
 });
 
+router.put('/me', AUTH.verifyUser, (req, res, next) => {
+    USER.findByIdAndUpdate(req.user._id, { $set: req.body }, { new: true })
+        .then((userA) => {
+            console.log("this is me");
+            res.json({ fullname: userA.fullname, email: userA.email, phonenumber:userA.phonenumber, address:userA.address,  gender:userA.gender,profile_image:userA.profile_image });
+        })
+});
 router.get('/profile/:phonenumber', (req, res, next) => {
 	USER.findOne({ phonenumber: req.params.phonenumber })
 		.then((userA) => {
@@ -191,4 +200,16 @@ router.get('/profile/:phonenumber', (req, res, next) => {
 		})
 		.catch(next);
 });
+
+router.delete('/:id/feedback/:feedbackid',AUTH.verifyUser,(req,res,next)=>{
+	USER.findById(req.params.id)
+		.then((system)=>{
+			system.feedback.pull(req.params.feedbackid);
+			system.save()
+			.then((system) => {
+		res.json(system);
+	})
+}).catch(next);
+});
+
 module.exports = router;

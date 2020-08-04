@@ -15,7 +15,7 @@ const Routenewdishes = require('./routes/newdishes');
 const RoutesUpcomingfood = require('./routes/upcomingfood');
 const RouteRegularfood = require('./routes/regularfood');
 const imageslider = require('./routes/imageslider')
-
+const scannerRoute = require('./routes/scanner');
 
 //Using
 const app = express();
@@ -46,6 +46,8 @@ app.use('/upcomingfood', RoutesUpcomingfood);
 app.use('/regularfood', RouteRegularfood);
 
 app.use('/imageslider', imageslider);
+app.use('/QRscanner',scannerRoute);
+
 
 app.listen(process.env.PORT, () => {
 	console.log(`Application is running in localhost:${process.env.PORT}`);

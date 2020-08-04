@@ -36,6 +36,14 @@ const userSchema = new mongoose.Schema({
 	profile_image: {
 		type: String,
 	},
+	address:{
+        type: String,
+        required: false,
+    },
+    gender:{
+        type: String,
+        required: false,
+    },
 	qa: {
 		question: {
 			type: String,
