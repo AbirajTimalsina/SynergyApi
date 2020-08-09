@@ -13,7 +13,6 @@ const userSchema = new mongoose.Schema({
 	fullname: {
 		type: String,
 		required: false,
-		minlength: 7,
 		maxlength: 50,
 	},
 	phonenumber: {
