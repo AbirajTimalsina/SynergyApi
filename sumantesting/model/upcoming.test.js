@@ -1,77 +1,76 @@
 
-//Function created
-describe('test of User Schema', ()=>{
-test('should login user',()=>{
-return login.create({
+//creating function
+
+describe('test of upcoming Schema', ()=>{
+test('should upcoming',()=>{
+return upcomingfood.create({
+
 })
 })
 })
 
-//database connection
+//checking connection
 const mongoose = require('mongoose');
 const testDb = 'mongodb://127.0.0.1/HappyBelly_test'
 beforeAll( async ()=>{
 await mongoose.connect(testDb,{useNewUrlParser:true, useUnifiedTopology:true, useCreateIndex:true, useFindAndModify:false})
-
 })
 afterAll(async ()=>{
 await mongoose.connection.dropDatabase();
 await mongoose.connection.close();
 })
-describe('test of User Schema', ()=>{
-test('should login user',()=>{
-return login.create({
-
+describe('test of upcoming Schema', ()=>{
+test('should upcoming',()=>{
+return upcomingfood.create({
 })
 })
 })
 
-
-// testing function without model
+// checking function without creating model
 const mongoose = require('mongoose');
 const testDb = 'mongodb://127.0.0.1/HappyBelly_test'
 beforeAll( async ()=>{
 await mongoose.connect(testDb,{useNewUrlParser:true, useUnifiedTopology:true, useCreateIndex:true, useFindAndModify:false})
-
 })
 afterAll(async ()=>{
 await mongoose.connection.dropDatabase();
 await mongoose.connection.close();
 })
-describe('test of User Schema', ()=>{
-test('should login user',()=>{
-return login.create({
-phonenumber:'9874569874',
-password:'1234',
+describe('test of upcoming Schema', ()=>{
+test('should upcoming',()=>{
+return upcomingfood.create({
+    upcomingfoodpicture:'',
+    upcomingfoodname:'cheesepasta',
+    upcomingfoodprice:'450',
 }).then((response)=>{
-expect(response.phonenumber).toBe('9874569874');
-expect(response.password).toBe('1234');
+expect(response.upcomingfoodpicture).toBe('');
+expect(response.upcomingfoodname).toBe('cheesepasta'); 
+expect(response.upcomingfoodprice).toBe('450');
 })
 })
 })
 
-
-  //testing all passes
-const login = require('../../models/users');
+// function aftre creating model for fastfood
+const upcomingfood = require('../../models/upcoming');
 const mongoose = require('mongoose');
 const testDb = 'mongodb://127.0.0.1/HappyBelly_test'
 beforeAll( async ()=>{
 await mongoose.connect(testDb,{useNewUrlParser:true, useUnifiedTopology:true, useCreateIndex:true, useFindAndModify:false})
-
 })
 afterAll(async ()=>{
 await mongoose.connection.dropDatabase();
 await mongoose.connection.close();
 })
-describe('test of User Schema', ()=>{
-test('should login user',()=>{
-return login.create({
-phonenumber:'9874569874',
-password:'1234',
+describe('test of upcoming Schema', ()=>{
+test('should upcoming',()=>{
+return upcomingfood.create({
+    upcomingfoodpicture:'',
+    upcomingfoodname:'cheesepasta',
+    upcomingfoodprice:'450',
 }).then((response)=>{
-expect(response.phonenumber).toBe('9874569874');
-expect(response.password).toBe('1234');
+expect(response.upcomingfoodpicture).toBe('');
+expect(response.upcomingfoodname).toBe('cheesepasta'); 
+expect(response.upcomingfoodprice).toBe('450');
 })
 })
 })
-

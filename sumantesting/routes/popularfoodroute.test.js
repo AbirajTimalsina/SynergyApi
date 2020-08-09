@@ -1,5 +1,20 @@
+// creating function for route
+describe ('Popular food test',() =>{
+    test('popular food item',async () => {
+       
+})
+})
+//checking  route connection
 const axios = require('axios');
 const baseurl = 'http://localhost:3000/popularfood';
+describe ('Popular food test',() =>{
+    test('popular food item',async () => {
+        let popularfood = await axios.post(baseurl,{
+        })
+    })
+    
+})
+// creating post function of Popular Food route
 
 describe ('Popular food test',() =>{
     test('popular food item',async () => {

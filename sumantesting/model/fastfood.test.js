@@ -1,77 +1,79 @@
-
-//Function created
-describe('test of User Schema', ()=>{
-test('should login user',()=>{
-return login.create({
+//creating function
+describe('test of fastfood Schema', ()=>{
+test('should fastfood',()=>{
+return fastfood.create({
 })
 })
 })
 
-//database connection
+//checking connection
+const fastfood = require('../../models/fastfood');
 const mongoose = require('mongoose');
 const testDb = 'mongodb://127.0.0.1/HappyBelly_test'
 beforeAll( async ()=>{
 await mongoose.connect(testDb,{useNewUrlParser:true, useUnifiedTopology:true, useCreateIndex:true, useFindAndModify:false})
-
 })
 afterAll(async ()=>{
 await mongoose.connection.dropDatabase();
 await mongoose.connection.close();
 })
-describe('test of User Schema', ()=>{
-test('should login user',()=>{
-return login.create({
+describe('test of fastfood Schema', ()=>{
+test('should fastfood',()=>{
+return fastfood.create({
 
 })
 })
 })
 
-
-// testing function without model
+// checking function without creating model
 const mongoose = require('mongoose');
 const testDb = 'mongodb://127.0.0.1/HappyBelly_test'
 beforeAll( async ()=>{
 await mongoose.connect(testDb,{useNewUrlParser:true, useUnifiedTopology:true, useCreateIndex:true, useFindAndModify:false})
-
 })
 afterAll(async ()=>{
 await mongoose.connection.dropDatabase();
 await mongoose.connection.close();
 })
-describe('test of User Schema', ()=>{
-test('should login user',()=>{
-return login.create({
-phonenumber:'9874569874',
-password:'1234',
+describe('test of fastfood Schema', ()=>{
+test('should fastfood',()=>{
+return fastfood.create({
+    fastfoodpicture:'',
+    fastfoodname:'noodles',
+    fastfoodprice:'200',
+
 }).then((response)=>{
-expect(response.phonenumber).toBe('9874569874');
-expect(response.password).toBe('1234');
+ 
+expect(response.fastfoodpicture).toBe('');
+expect(response.fastfoodname).toBe('noodles');
+expect(response.fastfoodprice).toBe('200');
 })
 })
 })
 
-
-  //testing all passes
-const login = require('../../models/users');
+// function after creating model for fastfood
+const fastfood = require('../../models/fastfood');
 const mongoose = require('mongoose');
 const testDb = 'mongodb://127.0.0.1/HappyBelly_test'
 beforeAll( async ()=>{
 await mongoose.connect(testDb,{useNewUrlParser:true, useUnifiedTopology:true, useCreateIndex:true, useFindAndModify:false})
-
 })
 afterAll(async ()=>{
 await mongoose.connection.dropDatabase();
 await mongoose.connection.close();
 })
-describe('test of User Schema', ()=>{
-test('should login user',()=>{
-return login.create({
-phonenumber:'9874569874',
-password:'1234',
-}).then((response)=>{
-expect(response.phonenumber).toBe('9874569874');
-expect(response.password).toBe('1234');
-})
-})
-})
+describe('test of fastfood Schema', ()=>{
+test('should fastfood',()=>{
+return fastfood.create({
+    fastfoodpicture:'',
+    fastfoodname:'noodles',
+    fastfoodprice:'200',
 
+}).then((response)=>{
+ 
+expect(response.fastfoodpicture).toBe('');
+expect(response.fastfoodname).toBe('noodles');
+expect(response.fastfoodprice).toBe('200');
+})
+})
+})

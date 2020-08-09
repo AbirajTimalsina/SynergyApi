@@ -1,77 +1,81 @@
+// creating function
+describe('test of item Schema', ()=>{
+test('should item',()=>{
+return Item.create({
 
-//Function created
-describe('test of User Schema', ()=>{
-test('should login user',()=>{
-return login.create({
 })
 })
 })
 
-//database connection
+// checking database connection
 const mongoose = require('mongoose');
 const testDb = 'mongodb://127.0.0.1/HappyBelly_test'
 beforeAll( async ()=>{
 await mongoose.connect(testDb,{useNewUrlParser:true, useUnifiedTopology:true, useCreateIndex:true, useFindAndModify:false})
-
 })
 afterAll(async ()=>{
 await mongoose.connection.dropDatabase();
 await mongoose.connection.close();
 })
-describe('test of User Schema', ()=>{
-test('should login user',()=>{
-return login.create({
-
+describe('test of item Schema', ()=>{
+test('should item',()=>{
+return Item.create({
 })
 })
 })
 
+//creating function without model
 
-// testing function without model
 const mongoose = require('mongoose');
 const testDb = 'mongodb://127.0.0.1/HappyBelly_test'
 beforeAll( async ()=>{
 await mongoose.connect(testDb,{useNewUrlParser:true, useUnifiedTopology:true, useCreateIndex:true, useFindAndModify:false})
-
 })
 afterAll(async ()=>{
 await mongoose.connection.dropDatabase();
 await mongoose.connection.close();
 })
-describe('test of User Schema', ()=>{
-test('should login user',()=>{
-return login.create({
-phonenumber:'9874569874',
-password:'1234',
+describe('test of item Schema', ()=>{
+test('should item',()=>{
+return Item.create({
+itemname:'puri',
+itemprice:'rs:900',
+itemingredient:'alutarkari',
+itempicture:''
+    
 }).then((response)=>{
-expect(response.phonenumber).toBe('9874569874');
-expect(response.password).toBe('1234');
+    expect(response.itemname).toBe('puri');
+expect(response.itemprice).toBe('rs:900');
+expect(response.itemingredient).toBe('alutarkari');
+expect(response.itempicture).toBe(''); 
 })
 })
 })
 
-
-  //testing all passes
-const login = require('../../models/users');
+//creating model for above function
+const Item = require('../../models/Item'); 
 const mongoose = require('mongoose');
 const testDb = 'mongodb://127.0.0.1/HappyBelly_test'
 beforeAll( async ()=>{
 await mongoose.connect(testDb,{useNewUrlParser:true, useUnifiedTopology:true, useCreateIndex:true, useFindAndModify:false})
-
 })
 afterAll(async ()=>{
 await mongoose.connection.dropDatabase();
 await mongoose.connection.close();
 })
-describe('test of User Schema', ()=>{
-test('should login user',()=>{
-return login.create({
-phonenumber:'9874569874',
-password:'1234',
+describe('test of item Schema', ()=>{
+test('should item',()=>{
+return Item.create({
+itemname:'puri',
+itemprice:'rs:900',
+itemingredient:'alutarkari',
+itempicture:''
+    
 }).then((response)=>{
-expect(response.phonenumber).toBe('9874569874');
-expect(response.password).toBe('1234');
+    expect(response.itemname).toBe('puri');
+expect(response.itemprice).toBe('rs:900');
+expect(response.itemingredient).toBe('alutarkari');
+expect(response.itempicture).toBe(''); 
 })
 })
 })
-
