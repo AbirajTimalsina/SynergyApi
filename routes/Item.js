@@ -2,17 +2,29 @@ const express = require('express');
 const router = express.Router();
 const ITEM = require('../models/item');
 
-router.post('/', (req, res, next) => {
-	ITEM.create({
-		itemname: req.body.itemname,
-		itemprice: req.body.itemprice,
-		itemingredient: req.body.itemingredient,
-		itempicture: req.body.itempicture,
-	})
-		.then((itemA) => {
-			res.json('Successfully registed => ' + itemA.itemname);
-		})
-		.catch(next);
+router.route('/')
+.get((req,res,next)=>{
+    ITEM.find()
+.then((itemfood)=>{
+    res.json(itemfood);
+}).catch((err) =>{console.log(err)});
+})
+.post((req,res,next)=>{
+    ITEM.create(req.body)
+    .then((itemfood)=>{
+        res.json(itemfood);
+    }).catch(next);
+})
+.put((req,res)=>{
+    res.send("Not Supported"); 
+})
+ 
+.delete((req,res,next)=>{
+    ITEM.deleteMany({})
+    .then((status)=>{
+        res.json(status);
+    }).catch(next);
+ 
 });
 
 router.get('/all', (req, res, next) => {
